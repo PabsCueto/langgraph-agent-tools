@@ -1,2 +1,3 @@
-def main() -> None:
-    print("Hello from langgraph-agent-tools!")
+from .agent import main
+
+__all__ = ["main"]
