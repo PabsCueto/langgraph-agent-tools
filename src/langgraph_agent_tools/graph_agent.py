@@ -7,6 +7,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode, tools_condition
 
+from .rag import buscar_en_documentacion
 from .tools import crear_link_corto, obtener_stats
 from .utils import extraer_texto, imprimir_rastro
 
@@ -20,7 +21,7 @@ class State(TypedDict):
     messages: Annotated[list, add_messages]
 
 
-tools = [crear_link_corto, obtener_stats]
+tools = [crear_link_corto, obtener_stats, buscar_en_documentacion]
 
 # bind_tools() es lo que le "enseña" al modelo qué herramientas existen y con
 # qué forma de argumentos — sin esto, jamás generaría un tool_call.

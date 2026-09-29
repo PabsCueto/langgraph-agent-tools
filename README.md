@@ -71,6 +71,20 @@ control y visibilidad tienes sobre cómo llegaron ahí.
   encadenar llamadas a herramientas con seguridad. Resuelto con un helper
   (`utils.extraer_texto`) que normaliza ambos formatos.
 
+  - **Incompatibilidad de plataforma (Chroma + onnxruntime)**: la elección más
+  común en tutoriales de RAG es Chroma como base vectorial, pero su
+  dependencia `onnxruntime` dejó de publicar wheels para macOS Intel (solo
+  soporta Apple Silicon con macOS 14+). Corrección: se cambió a
+  `InMemoryVectorStore` de `langchain-core` — sin dependencias externas, y
+  mejor elección de cualquier forma para el tamaño de este proyecto.
+
+- **Orden de import y variables de entorno**: `rag.py` construye el
+  retriever (que necesita `GOOGLE_API_KEY`) en el momento del import, no
+  cuando se llama una función. Como Python ejecuta el módulo completo al
+  importarlo, sin su propio `load_dotenv()` dependía silenciosamente de qué
+  otro archivo lo importara primero. Lección: cada módulo que lee variables
+  de entorno debe cargarlas por sí mismo, nunca asumir que ya se cargaron.
+
 ## Estado actual
 
 - [x] Entorno y dependencias con `uv`
@@ -78,3 +92,4 @@ control y visibilidad tienes sobre cómo llegaron ahí.
 - [x] Primer agente funcional con `create_agent`
 - [x] Misma lógica reconstruida como `StateGraph`
 - [x] Documentar decisiones de diseño y bugs reales encontrados
+- [x] Tercera tool con RAG sobre la documentación del proyecto (`docs/`)

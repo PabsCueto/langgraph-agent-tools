@@ -3,6 +3,7 @@ from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
+from .rag import buscar_en_documentacion
 from .tools import crear_link_corto, obtener_stats
 from .utils import extraer_texto, imprimir_rastro
 
@@ -14,7 +15,10 @@ load_dotenv()
 
 model = ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite")
 
-agent = create_agent(model, tools=[crear_link_corto, obtener_stats])
+agent = create_agent(
+    model,
+    tools=[crear_link_corto, obtener_stats, buscar_en_documentacion],
+)
 
 
 def main() -> None:
